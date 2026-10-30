@@ -1,0 +1,103 @@
+$ git switch main && git merge --no-ff feature/kim-vladislav-crud -m "merge: feature/kim-vladislav-crud into main"
+Switched to branch 'main'
+Merge made by the 'ort' strategy.
+ README.md                                          |  4 ++++
+ .../student/StudentExceptionHandler.java           | 23 ++++++++++++++++++++++
+ .../studentapi/StudentApiApplicationTests.java     |  7 +++++++
+ 3 files changed, 34 insertions(+)
+ create mode 100644 src/main/java/kz/kimvladislav/studentapi/student/StudentExceptionHandler.java
+
+$ git switch -c feature/kim-vladislav-documentation
+Switched to a new branch 'feature/kim-vladislav-documentation'
+$ git diff
+diff --git a/README.md b/README.md
+index 32edead..59436f0 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+ # Kim Vladislav Student API
+ 
+-Spring Boot CRUD application for managing students.
++REST API for university students (documentation branch by Kim Vladislav).
+ Author: Kim Vladislav
+ 
+ ## Stack
+$ git switch main
+Switched to branch 'main'
+$ git diff
+diff --git a/README.md b/README.md
+index 32edead..de68708 100644
+--- a/README.md
++++ b/README.md
+@@ -1,6 +1,6 @@
+ # Kim Vladislav Student API
+ 
+-Spring Boot CRUD application for managing students.
++Spring Boot CRUD service for students, containerized with Docker (main by Kim Vladislav).
+ Author: Kim Vladislav
+ 
+ ## Stack
+
+$ git merge feature/kim-vladislav-documentation
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+$ git status
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	evidence/2.3_conflict.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ cat README.md   # conflict markers
+# Kim Vladislav Student API
+
+<<<<<<< HEAD
+Spring Boot CRUD service for students, containerized with Docker (main by Kim Vladislav).
+=======
+REST API for university students (documentation branch by Kim Vladislav).
+>>>>>>> feature/kim-vladislav-documentation
+Author: Kim Vladislav
+
+## Stack
+- Java 21, Spring Boot, Gradle
+- PostgreSQL
+- Docker, Docker Compose
+- Jenkins
+
+## Changes by Kim Vladislav
+- `GET/PUT/DELETE /api/students/{id}` now returns `404 Not Found` with a JSON
+  error body when the student does not exist (before it was `500`).
+
+# Resolved manually in editor: kept one combined line, removed <<<<<<< ======= >>>>>>> markers
+$ head -5 README.md
+# Kim Vladislav Student API
+
+Spring Boot CRUD REST API for university students, containerized with Docker.
+Author: Kim Vladislav
+
+$ git add README.md
+$ git commit -m "merge: resolve README conflict with documentation branch (Kim Vladislav)"
+committed
+
+$ git log --oneline --graph --all --decorate
+*   f177a95 (HEAD -> main) merge: resolve README conflict with documentation branch (Kim Vladislav)
+|\  
+| * ef4f2cc (feature/kim-vladislav-documentation) docs: reword project description on documentation branch (Kim Vladislav)
+* | 5dd651d docs: reword project description on main (Kim Vladislav)
+|/  
+*   97b8c44 merge: feature/kim-vladislav-crud into main
+|\  
+| * e971527 (feature/kim-vladislav-crud) docs: describe 404 handling in README by Kim Vladislav
+| * 59b7d9e feat: return 404 JSON for missing student (Kim Vladislav)
+|/  
+* d436057 docs: add git init evidence for Kim Vladislav
+* 1a7bce0 Initial commit: Kim Vladislav Student API
