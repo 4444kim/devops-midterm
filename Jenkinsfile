@@ -7,9 +7,9 @@ pipeline {
         IMAGE_TAG    = 'v1.0-kim-vladislav'
     }
 
-    triggers {
-        // Fallback when a GitHub webhook can't reach Jenkins (e.g. localhost)
-        pollSCM('H/2 * * * *')
+    tools {
+        // JDK registered in Manage Jenkins -> Tools
+        jdk 'jdk21'
     }
 
     options {

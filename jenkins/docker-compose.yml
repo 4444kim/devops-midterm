@@ -1,0 +1,23 @@
+name: kim-vladislav-jenkins
+
+services:
+  jenkins:
+    build: .
+    image: kim-vladislav-jenkins
+    container_name: kim-vladislav-jenkins
+    # gid 0 owns /var/run/docker.sock in Docker Desktop VM
+    group_add:
+      - "0"
+    ports:
+      - "8090:8080"
+    environment:
+      JAVA_OPTS: -Djenkins.install.runSetupWizard=false
+      JENKINS_ADMIN_ID: kim_vladislav
+      JENKINS_ADMIN_PASSWORD: ${JENKINS_ADMIN_PASSWORD:?set JENKINS_ADMIN_PASSWORD in jenkins/.env}
+    volumes:
+      - kim-vladislav-jenkins-home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  kim-vladislav-jenkins-home:
