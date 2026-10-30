@@ -1,6 +1,6 @@
 # Kim Vladislav Student API
 
-Spring Boot CRUD service for students, containerized with Docker (main by Kim Vladislav).
+Spring Boot CRUD REST API for university students, containerized with Docker.
 Author: Kim Vladislav
 
 ## Stack
