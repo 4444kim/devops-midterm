@@ -8,3 +8,7 @@ Author: Kim Vladislav
 - PostgreSQL
 - Docker, Docker Compose
 - Jenkins
+
+## Changes by Kim Vladislav
+- `GET/PUT/DELETE /api/students/{id}` now returns `404 Not Found` with a JSON
+  error body when the student does not exist (before it was `500`).
