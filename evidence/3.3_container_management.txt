@@ -1,0 +1,119 @@
+$ docker ps --format 'table {{.Names}}	{{.Image}}	{{.Status}}	{{.Ports}}'
+NAMES               IMAGE                                          STATUS                    PORTS
+kim-vladislav-app   kim-vladislav-student-api:v1.0-kim-vladislav   Up 21 seconds             0.0.0.0:8081->8080/tcp, [::]:8081->8080/tcp
+kim-vladislav-db    postgres:16-alpine                             Up 27 seconds (healthy)   5432/tcp
+
+$ docker logs --tail 15 kim-vladislav-app
+	Database version: 16.14
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-10-30T04:12:14.781Z  INFO 1 --- [kim-vladislav-student-api] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-30T04:12:14.801Z  WARN 1 --- [kim-vladislav-student-api] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2026-10-30T04:12:14.801Z  WARN 1 --- [kim-vladislav-student-api] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "uke2rndfrsx22acpq2ty1caeuyw" of relation "students" does not exist, skipping
+2026-10-30T04:12:14.803Z  INFO 1 --- [kim-vladislav-student-api] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-30T04:12:15.061Z  INFO 1 --- [kim-vladislav-student-api] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-10-30T04:12:15.086Z  INFO 1 --- [kim-vladislav-student-api] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-10-30T04:12:15.092Z  INFO 1 --- [kim-vladislav-student-api] [           main] k.k.studentapi.StudentApiApplication     : Started StudentApiApplication in 1.5 seconds (process running for 1.681)
+2026-10-30T04:12:15.531Z  INFO 1 --- [kim-vladislav-student-api] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-30T04:12:15.531Z  INFO 1 --- [kim-vladislav-student-api] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-30T04:12:15.532Z  INFO 1 --- [kim-vladislav-student-api] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+
+$ docker inspect kim-vladislav-app --format 'Name={{.Name}} Image={{.Config.Image}} Restart={{.HostConfig.RestartPolicy.Name}} Ports={{json .NetworkSettings.Ports}} Networks={{range $k,$v := .NetworkSettings.Networks}}{{$k}} {{end}}'
+Name=/kim-vladislav-app Image=kim-vladislav-student-api:v1.0-kim-vladislav Restart=unless-stopped Ports={"8080/tcp":[{"HostIp":"0.0.0.0","HostPort":"8081"},{"HostIp":"::","HostPort":"8081"}]} Networks=kim-vladislav-student-api_kim-vladislav-net 
+
+$ docker inspect kim-vladislav-db --format 'Health={{.State.Health.Status}} Mounts={{range .Mounts}}{{.Name}}->{{.Destination}}{{end}}'
+Health=healthy Mounts=kim-vladislav-student-api_kim-vladislav-pgdata->/var/lib/postgresql/data
+
+$ docker exec kim-vladislav-app sh -c 'whoami; java -version 2>&1 | head -1; ls -l /app'
+spring
+openjdk version "21.0.13" 2026-10-20 LTS
+total 55500
+-rw-r--r-- 1 root root 56830647 Oct 30 04:11 app.jar
+
+$ docker exec kim-vladislav-db psql -U kim_vladislav -d studentdb -c 'SELECT id, first_name, last_name, group_name FROM students ORDER BY id;'
+ id | first_name | last_name |   group_name   
+----+------------+-----------+----------------
+  1 | Vladislav  | Kim       | SE-2301 DevOps
+  2 | Aigerim    | Kim-Test  | SE-2301
+(2 rows)
+
+
+$ docker compose stop app
+ Container kim-vladislav-app Stopping 
+ Container kim-vladislav-app Stopped 
+
+$ docker compose ps -a
+NAME                IMAGE                                          COMMAND                  SERVICE   CREATED          STATUS                                PORTS
+kim-vladislav-app   kim-vladislav-student-api:v1.0-kim-vladislav   "java -jar app.jar"      app       28 seconds ago   Exited (143) Less than a second ago   
+kim-vladislav-db    postgres:16-alpine                             "docker-entrypoint.s…"   db        28 seconds ago   Up 28 seconds (healthy)               5432/tcp
+
+$ docker compose start app
+ Container kim-vladislav-db Waiting 
+ Container kim-vladislav-db Healthy 
+ Container kim-vladislav-app Starting 
+ Container kim-vladislav-app Started 
+
+$ sleep 12; curl -s localhost:8081/api/students
+[{"id":2,"firstName":"Aigerim","lastName":"Kim-Test","email":"aigerim.test@student.kz","groupName":"SE-2301"},{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301 DevOps"}]
+# --- change application version 1.0.0 -> 1.1.0 and rebuild ---
+$ git diff --stat
+ build.gradle                              | 2 +-
+ src/main/resources/application.properties | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+$ docker compose build app | tail -3
+ Image kim-vladislav-student-api:v1.0-kim-vladislav Building 
+ Image kim-vladislav-student-api:v1.0-kim-vladislav Built 
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+
+$ docker compose up -d app
+ Container kim-vladislav-db Running 
+ Container kim-vladislav-app Recreate 
+ Container kim-vladislav-app Recreated 
+ Container kim-vladislav-db Waiting 
+ Container kim-vladislav-db Healthy 
+ Container kim-vladislav-app Starting 
+ Container kim-vladislav-app Started 
+
+$ sleep 14; curl -s localhost:8081/
+{"version":"1.1.0","application":"kim-vladislav-student-api","author":"Kim Vladislav"}
+$ docker images kim-vladislav-student-api
+IMAGE                                          ID             DISK USAGE   CONTENT SIZE   EXTRA
+kim-vladislav-student-api:v1.0-kim-vladislav   7780b4b7200c        584MB          164MB   U    
+
+# --- persistence: full restart of all services (volume is kept) ---
+$ docker compose down
+ Container kim-vladislav-app Stopping 
+ Container kim-vladislav-app Stopped 
+ Container kim-vladislav-app Removing 
+ Container kim-vladislav-app Removed 
+ Container kim-vladislav-db Stopping 
+ Container kim-vladislav-db Stopped 
+ Container kim-vladislav-db Removing 
+ Container kim-vladislav-db Removed 
+ Network kim-vladislav-student-api_kim-vladislav-net Removing 
+ Network kim-vladislav-student-api_kim-vladislav-net Removed 
+
+$ docker volume ls | grep pgdata
+local     kim-vladislav-student-api_kim-vladislav-pgdata
+
+$ docker compose up -d
+ Network kim-vladislav-student-api_kim-vladislav-net Creating 
+ Network kim-vladislav-student-api_kim-vladislav-net Created 
+ Container kim-vladislav-db Creating 
+ Container kim-vladislav-db Created 
+ Container kim-vladislav-app Creating 
+ Container kim-vladislav-app Created 
+ Container kim-vladislav-db Starting 
+ Container kim-vladislav-db Started 
+ Container kim-vladislav-db Waiting 
+ Container kim-vladislav-db Healthy 
+ Container kim-vladislav-app Starting 
+ Container kim-vladislav-app Started 
+
+$ sleep 15; curl -s localhost:8081/api/students
+[{"id":2,"firstName":"Aigerim","lastName":"Kim-Test","email":"aigerim.test@student.kz","groupName":"SE-2301"},{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301 DevOps"}]

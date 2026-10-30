@@ -1,0 +1,35 @@
+$ docker compose up -d
+ Network kim-vladislav-student-api_kim-vladislav-net Creating 
+ Network kim-vladislav-student-api_kim-vladislav-net Created 
+ Volume kim-vladislav-student-api_kim-vladislav-pgdata Creating 
+ Volume kim-vladislav-student-api_kim-vladislav-pgdata Created 
+ Container kim-vladislav-db Creating 
+ Container kim-vladislav-db Created 
+ Container kim-vladislav-app Creating 
+ Container kim-vladislav-app Created 
+ Container kim-vladislav-db Starting 
+ Container kim-vladislav-db Started 
+ Container kim-vladislav-db Healthy 
+ Container kim-vladislav-app Starting 
+ Container kim-vladislav-app Started 
+
+$ docker compose ps
+NAME                IMAGE                                          COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+kim-vladislav-app   kim-vladislav-student-api:v1.0-kim-vladislav   "java -jar app.jar"      app       8 seconds ago   Up 2 seconds             0.0.0.0:8081->8080/tcp, [::]:8081->8080/tcp
+kim-vladislav-db    postgres:16-alpine                             "docker-entrypoint.s…"   db        8 seconds ago   Up 7 seconds (healthy)   5432/tcp
+
+$ curl -s localhost:8081/actuator/health
+{"status":"UP"}
+$ curl -s localhost:8081/
+{"version":"1.0.0","author":"Kim Vladislav","application":"kim-vladislav-student-api"}
+
+$ docker exec kim-vladislav-app env | grep SPRING_DATASOURCE_URL   # uses service name "db", not localhost
+SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/studentdb
+$ docker compose logs app | grep -i -E "HikariPool-1 - (Added|Start)"
+kim-vladislav-app  | 2026-10-30T04:12:14.438Z  INFO 1 --- [kim-vladislav-student-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+kim-vladislav-app  | 2026-10-30T04:12:14.501Z  INFO 1 --- [kim-vladislav-student-api] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@194037f9
+kim-vladislav-app  | 2026-10-30T04:12:14.501Z  INFO 1 --- [kim-vladislav-student-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+
+$ docker volume ls | grep kim-vladislav; docker network ls | grep kim-vladislav
+local     kim-vladislav-student-api_kim-vladislav-pgdata
+6baadecae04e   kim-vladislav-student-api_kim-vladislav-net   bridge    local

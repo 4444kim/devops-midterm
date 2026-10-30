@@ -1,0 +1,85 @@
+$ docker build -t kim-vladislav-student-api:v1.0-kim-vladislav .
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+#2 [internal] load metadata for docker.io/library/eclipse-temurin:21-jdk
+#2 DONE 0.3s
+#3 [internal] load metadata for docker.io/library/eclipse-temurin:21-jre
+#3 DONE 4.8s
+#4 [internal] load .dockerignore
+#4 DONE 0.0s
+#5 [internal] load build context
+#5 DONE 0.0s
+#6 [build 1/7] FROM docker.io/library/eclipse-temurin:21-jdk@sha256:ebfbb18d11ff163ee83b21258acf12248af48d22a0fdfdc68fa1a1516c05976a
+#6 DONE 0.1s
+#7 [build 2/7] WORKDIR /app
+#7 DONE 0.0s
+#8 [build 3/7] COPY gradlew settings.gradle build.gradle ./
+#8 DONE 0.0s
+#9 [build 4/7] COPY gradle ./gradle
+#9 DONE 0.0s
+#10 [stage-1 1/4] FROM docker.io/library/eclipse-temurin:21-jre@sha256:0b99b3376fbb50dbf9c0af8535fdd5b8eb0d3fdfc8b1e4967f383b6919f6901a
+#11 [build 5/7] RUN chmod +x gradlew && ./gradlew dependencies --no-daemon > /dev/null
+#10 [stage-1 1/4] FROM docker.io/library/eclipse-temurin:21-jre@sha256:0b99b3376fbb50dbf9c0af8535fdd5b8eb0d3fdfc8b1e4967f383b6919f6901a
+#10 DONE 28.2s
+#11 [build 5/7] RUN chmod +x gradlew && ./gradlew dependencies --no-daemon > /dev/null
+#10 [stage-1 1/4] FROM docker.io/library/eclipse-temurin:21-jre@sha256:0b99b3376fbb50dbf9c0af8535fdd5b8eb0d3fdfc8b1e4967f383b6919f6901a
+#10 DONE 28.2s
+#12 [stage-1 2/4] WORKDIR /app
+#12 DONE 0.1s
+#13 [stage-1 3/4] RUN useradd --system --uid 1001 spring
+#13 DONE 0.1s
+#11 [build 5/7] RUN chmod +x gradlew && ./gradlew dependencies --no-daemon > /dev/null
+#11 DONE 127.2s
+#14 [build 6/7] COPY src ./src
+#14 DONE 0.0s
+#15 [build 7/7] RUN ./gradlew bootJar --no-daemon -x test
+#15 DONE 26.6s
+#16 [stage-1 4/4] COPY --from=build /app/build/libs/kim-vladislav-student-api.jar app.jar
+#16 DONE 0.0s
+#17 naming to docker.io/library/kim-vladislav-student-api:v1.0-kim-vladislav done
+#17 DONE 1.2s
+
+$ docker images kim-vladislav-student-api
+IMAGE                                          ID             DISK USAGE   CONTENT SIZE   EXTRA
+kim-vladislav-student-api:v1.0-kim-vladislav   e99779cee04b        584MB          164MB        
+
+$ docker image inspect kim-vladislav-student-api:v1.0-kim-vladislav --format ...
+Id: sha256:e99779cee04bbefc292b38096351742f104d75c9b317683493d55bcf931742b9
+Created: 2026-10-30T04:11:59.24863397Z
+Size: 164130899 bytes
+Arch: arm64
+ExposedPorts: map[8080/tcp:map[]]
+Entrypoint: [java -jar app.jar]
+Labels: map[maintainer:Kim Vladislav org.opencontainers.image.created:2026-10-25T10:30:32.309136+00:00 org.opencontainers.image.description:The Ubuntu container image maintained by Canonical
+
+Ubuntu is a Debian-based Linux operating system that runs from the desktop to the cloud, to all your internet connected things.
+It is the world's most popular operating system across public clouds and OpenStack clouds.
+It is the number one platform for containers; from Docker to Kubernetes to LXD, Ubuntu can run your containers at scale.
+Fast, secure and simple, Ubuntu powers millions of PCs worldwide.
+ org.opencontainers.image.title:kim-vladislav-student-api org.opencontainers.image.version:26.04]
+
+$ docker history kim-vladislav-student-api:v1.0-kim-vladislav
+IMAGE          CREATED         CREATED BY                                      SIZE      COMMENT
+e99779cee04b   1 second ago    ENTRYPOINT ["java" "-jar" "app.jar"]            0B        buildkit.dockerfile.v0
+<missing>      1 second ago    EXPOSE [8080/tcp]                               0B        buildkit.dockerfile.v0
+<missing>      1 second ago    USER spring                                     0B        buildkit.dockerfile.v0
+<missing>      1 second ago    COPY /app/build/libs/kim-vladislav-student-a…   56.8MB    buildkit.dockerfile.v0
+<missing>      2 minutes ago   RUN /bin/sh -c useradd --system --uid 1001 s…   41kB      buildkit.dockerfile.v0
+<missing>      2 minutes ago   WORKDIR /app                                    8.19kB    buildkit.dockerfile.v0
+<missing>      2 minutes ago   LABEL maintainer=Kim Vladislav org.openconta…   0B        buildkit.dockerfile.v0
+<missing>      9 hours ago     ENTRYPOINT ["/__cacert_entrypoint.sh"]          0B        buildkit.dockerfile.v0
+<missing>      9 hours ago     COPY --chmod=755 entrypoint.sh /__cacert_ent…   12.3kB    buildkit.dockerfile.v0
+<missing>      9 hours ago     RUN /bin/sh -c set -eux;     echo "Verifying…   12.3kB    buildkit.dockerfile.v0
+<missing>      9 hours ago     RUN /bin/sh -c set -eux;     ARCH="$(dpkg --…   166MB     buildkit.dockerfile.v0
+<missing>      9 hours ago     ENV JAVA_VERSION=jdk-21.0.13+9                  0B        buildkit.dockerfile.v0
+<missing>      9 hours ago     RUN /bin/sh -c set -eux;     apt-get update;…   60.5MB    buildkit.dockerfile.v0
+<missing>      9 hours ago     ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_AL…   0B        buildkit.dockerfile.v0
+<missing>      9 hours ago     ENV PATH=/opt/java/openjdk/bin:/usr/local/sb…   0B        buildkit.dockerfile.v0
+<missing>      9 hours ago     ENV JAVA_HOME=/opt/java/openjdk                 0B        buildkit.dockerfile.v0
+<missing>      4 days ago      umoci raw add-layer --image /home/buildd/roc…   12.3kB    Add rock control metadata
+<missing>      4 days ago      umoci config --image /home/buildd/rockcraft-…   0B        Set annotations
+<missing>      4 days ago      umoci config --image /home/buildd/rockcraft-…   0B        Set labels
+<missing>      4 days ago      umoci config --image /home/buildd/rockcraft-…   0B        Set default PATH for bare-based rock
+<missing>      4 days ago      umoci config --image /home/buildd/rockcraft-…   0B        Set default commands
+<missing>      4 days ago      umoci config --image /home/buildd/rockcraft-…   0B        Set entrypoint
+<missing>      4 days ago      umoci raw add-layer --image /home/buildd/roc…   136MB     

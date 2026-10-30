@@ -1,0 +1,63 @@
+$ curl -s -i -X POST http://localhost:8081/api/students -H 'Content-Type: application/json' -d '{"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301"}'
+HTTP/1.1 201 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 30 Oct 2026 04:12:22 GMT
+
+{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301"}
+
+$ curl -s -X POST http://localhost:8081/api/students -H 'Content-Type: application/json' -d '{"firstName":"Aigerim","lastName":"Kim-Test","email":"aigerim.test@student.kz","groupName":"SE-2301"}'
+{"id":2,"firstName":"Aigerim","lastName":"Kim-Test","email":"aigerim.test@student.kz","groupName":"SE-2301"}
+
+$ curl -s -X POST http://localhost:8081/api/students -H 'Content-Type: application/json' -d '{"firstName":"Temp","lastName":"ToDelete","email":"temp.delete@student.kz","groupName":"SE-2302"}'
+{"id":3,"firstName":"Temp","lastName":"ToDelete","email":"temp.delete@student.kz","groupName":"SE-2302"}
+
+$ curl -s -i http://localhost:8081/api/students
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 30 Oct 2026 04:12:22 GMT
+
+[{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301"},{"id":2,"firstName":"Aigerim","lastName":"Kim-Test","email":"aigerim.test@student.kz","groupName":"SE-2301"},{"id":3,"firstName":"Temp","lastName":"ToDelete","email":"temp.delete@student.kz","groupName":"SE-2302"}]
+
+$ curl -s -i http://localhost:8081/api/students/1
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 30 Oct 2026 04:12:23 GMT
+
+{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301"}
+
+$ curl -s -i -X PUT http://localhost:8081/api/students/1 -H 'Content-Type: application/json' -d '{"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301 DevOps"}'
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 30 Oct 2026 04:12:23 GMT
+
+{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301 DevOps"}
+
+$ curl -s -i -X DELETE http://localhost:8081/api/students/3
+HTTP/1.1 204 
+Date: Fri, 30 Oct 2026 04:12:23 GMT
+
+
+
+$ curl -s -i http://localhost:8081/api/students/3
+HTTP/1.1 404 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 30 Oct 2026 04:12:23 GMT
+
+{"timestamp":"2026-10-30T04:12:23.070562217Z","message":"Student with id 3 not found","error":"Not Found","status":404}
+
+$ curl -s -i http://localhost:8081/api/students/999
+HTTP/1.1 404 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 30 Oct 2026 04:12:23 GMT
+
+{"timestamp":"2026-10-30T04:12:23.081117384Z","message":"Student with id 999 not found","error":"Not Found","status":404}
+
+$ curl -s http://localhost:8081/api/students
+[{"id":2,"firstName":"Aigerim","lastName":"Kim-Test","email":"aigerim.test@student.kz","groupName":"SE-2301"},{"id":1,"firstName":"Vladislav","lastName":"Kim","email":"vladislav.kim@student.kz","groupName":"SE-2301 DevOps"}]
+
