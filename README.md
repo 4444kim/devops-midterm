@@ -1,6 +1,6 @@
 # Kim Vladislav Student API
 
-Spring Boot CRUD application for managing students.
+REST API for university students (documentation branch by Kim Vladislav).
 Author: Kim Vladislav
 
 ## Stack
