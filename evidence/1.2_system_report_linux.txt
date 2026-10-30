@@ -1,0 +1,33 @@
+$ docker run --rm -v "$PWD":/project -w /project ubuntu:24.04 ./scripts/Kim_Vladislav_system_report.sh
+24.04: Pulling from library/ubuntu
+########## SYSTEM REPORT ##########
+Student:   Kim Vladislav
+Date/time: 2026-10-30 04:03:33 UTC
+Username:  root
+
+=== Operating system and kernel ===
+OS:     Ubuntu 24.04.5 LTS
+Kernel: Linux 6.12.76-linuxkit (aarch64)
+
+=== CPU ===
+Architecture:                            aarch64
+CPU(s):                                  6
+Model name:                              -
+
+=== Memory ===
+               total        used        free      shared  buff/cache   available
+Mem:           9.7Gi       721Mi       4.7Gi       568Ki       4.5Gi       9.0Gi
+Swap:          1.0Gi          0B       1.0Gi
+
+=== Disk usage ===
+Filesystem            Size  Used Avail Use% Mounted on
+overlay               126G   45G   75G  38% /
+tmpfs                  64M     0   64M   0% /dev
+shm                    64M     0   64M   0% /dev/shm
+/run/host_mark/Users  461G  295G  167G  64% /project
+/dev/vda1             126G   45G   75G  38% /etc/hosts
+tmpfs                 4.0K     0  4.0K   0% /proc/scsi
+
+=== Available disk space on / ===
+Available: 75G of 126G (38% used)
+###################################

@@ -1,0 +1,29 @@
+$ ps aux | head -5
+USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+_windowserver      404  99.4  0.4 436610192 103840   ??  Rs   Sat08PM 524:13.56 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer -daemon
+vladkim          12512  26.9  9.3 445982192 2333104   ??  Rs    8:57AM   2:02.16 /System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine
+vladkim          82452  19.5  0.1 435399360  25664   ??  Ss   Wed08AM   0:57.06 /System/Library/PrivateFrameworks/IntelligencePlatformCompute.framework/Versions/A/XPCServices/IntelligencePlatformComputeService.xpc/Contents/MacOS/IntelligencePlatformComputeService
+vladkim           2183  15.8  4.1 1978064336 1034816   ??  S    Sat08PM 104:10.56 /Applications/Arc.app/Contents/Frameworks/ArcCore.framework/Helpers/Browser Helper (Renderer).app/Contents/MacOS/Browser Helper (Renderer) --type=renderer --user-data-dir=/Users/vladkim/Library/Application Support/Arc/User Data --bcny-app-id=0 --enable-blink-features=MediaSessionEnterPictureInPictureOnGMeetOnly --lang=ru --num-raster-threads=4 --enable-zero-copy --enable-gpu-memory-buffer-compositor-resources --enable-main-frame-before-activation --renderer-client-id=44 --launch-time-ticks=676542084 --shared-files --metrics-shmem-handle=1752395122,r,9517554131063296377,15715909505945405190,1572864 --field-trial-handle=1718379636,r,11034559941862548327,15766182445711887230,262144 --variations-seed-version --pseudonymization-salt-handle=1935764596,r,7370780313318027129,944476561815084321,4 --trace-process-track-uuid=3190709027541712850 --seatbelt-client=247
+
+$ ps aux | grep -i '[j]ava'
+vladkim            769   0.0  0.1 445727824  36240   ??  S    Sat08PM   2:48.84 /opt/homebrew/opt/openjdk@21/bin/java -Dmail.smtp.starttls.enable=true -jar /opt/homebrew/opt/jenkins-lts/libexec/jenkin
+vladkim          13187   0.0  0.0 435308448   3344   ??  Ss    9:03AM   0:00.01 /bin/zsh -c source /Users/vladkim/.claude/shell-snapshots/snapshot-zsh-1793332625605-qyh6xg.sh 2>/dev/null || true && se
+
+$ tail -n 5 logs/Kim_Vladislav_system_report.log
+tmpfs                 4.0K     0  4.0K   0% /proc/scsi
+
+=== Available disk space on / ===
+Available: 75G of 126G (38% used)
+###################################
+
+$ grep -n "Kim" logs/Kim_Vladislav_system_report.log > logs/Kim_Vladislav_log_analysis.txt
+$ cat logs/Kim_Vladislav_log_analysis.txt
+2:Student:   Kim Vladislav
+41:Student:   Kim Vladislav
+
+# > overwrites, >> appends:
+$ echo "first" > /tmp/kv_demo.txt; echo "second" > /tmp/kv_demo.txt; cat /tmp/kv_demo.txt
+second
+$ echo "third" >> /tmp/kv_demo.txt; cat /tmp/kv_demo.txt
+second
+third

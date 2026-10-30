@@ -1,0 +1,40 @@
+$ ./scripts/Kim_Vladislav_system_report.sh
+########## SYSTEM REPORT ##########
+Student:   Kim Vladislav
+Date/time: 2026-10-30 09:02:54 +05
+Username:  vladkim
+
+=== Operating system and kernel ===
+OS:     macOS 26.5.2
+Kernel: Darwin 25.5.0 (arm64)
+
+=== CPU ===
+Model name: Apple M4 Pro
+CPU(s):     12
+
+=== Memory ===
+Total memory: 24 GB
+Mach Virtual Memory Statistics: (page size of 16384 bytes)
+Pages free:                                     4514.
+Pages active:                                 329757.
+Pages inactive:                               327574.
+Pages speculative:                              1180.
+
+=== Disk usage ===
+Filesystem                         Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1                    460Gi    12Gi   167Gi     7%    459k  1.7G    0%   /
+devfs                             205Ki   205Ki     0Bi   100%     710     0  100%   /dev
+/dev/disk3s6                      460Gi   2.0Gi   167Gi     2%       2  1.7G    0%   /System/Volumes/VM
+/dev/disk3s2                      460Gi    10Gi   167Gi     6%    2.0k  1.7G    0%   /System/Volumes/Preboot
+/dev/disk3s4                      460Gi   7.3Mi   167Gi     1%     109  1.7G    0%   /System/Volumes/Update
+/dev/disk1s2                      500Mi   6.0Mi   481Mi     2%       1  4.9M    0%   /System/Volumes/xarts
+/dev/disk1s1                      500Mi   5.6Mi   481Mi     2%      37  4.9M    0%   /System/Volumes/iSCPreboot
+/dev/disk1s3                      500Mi   2.4Mi   481Mi     1%      89  4.9M    0%   /System/Volumes/Hardware
+/dev/disk3s5                      460Gi   267Gi   167Gi    62%    3.9M  1.7G    0%   /System/Volumes/Data
+map auto_home                       0Bi     0Bi     0Bi   100%       0     0     -   /System/Volumes/Data/home
+/Applications/Opkit.app/Wrapper   460Gi   260Gi   176Gi    60%    3.8M  1.8G    0%   /private/var/folders/7f/3ky_8vyj4012b478nmq_ls300000gn/X/A8D91F11-90BD-53FA-A435-48DC50DE6C49
+/dev/disk5s1                       17Gi    16Gi   444Mi    98%    627k  4.6M   12%   /Library/Developer/CoreSimulator/Volumes/iOS_23F77
+
+=== Available disk space on / ===
+Available: 167Gi of 460Gi (7% used)
+###################################

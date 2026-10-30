@@ -1,0 +1,28 @@
+$ git init
+Initialized empty Git repository in /Users/vladkim/projects/university/devops/kim-vladislav-student-api/.git/
+$ git config user.name "Kim Vladislav"
+$ git config user.email "vladkimpersonal@gmail.com"
+$ git config --list --local | grep user
+user.name=Kim Vladislav
+user.email=vladkimpersonal@gmail.com
+$ cat .gitignore
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+out/
+
+# OS
+.DS_Store
+
+# Secrets
+.env
+*.env
+!.env.example
+
+$ git add .

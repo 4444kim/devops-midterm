@@ -1,0 +1,23 @@
+$ ls -l scripts/Kim_Vladislav_system_report.sh   # before
+-rw-r--r--@ 1 vladkim  staff  1572 Oct 30 08:58 scripts/Kim_Vladislav_system_report.sh
+$ chmod +x scripts/Kim_Vladislav_system_report.sh
+$ chmod 744 scripts/Kim_Vladislav_system_report.sh   # rwx for owner, r-- for group and others
+$ ls -l scripts/Kim_Vladislav_system_report.sh
+-rwxr--r--@ 1 vladkim  staff  1572 Oct 30 08:58 scripts/Kim_Vladislav_system_report.sh
+$ cp README.md backups/README_Kim_Vladislav_backup.md
+$ ls -l backups/
+total 8
+-rw-r--r--@ 1 vladkim  staff  192 Oct 30 09:02 README_Kim_Vladislav_backup.md
+$ diff README.md backups/README_Kim_Vladislav_backup.md && echo "Backup is identical"
+Backup is identical
+$ cat backups/README_Kim_Vladislav_backup.md
+# Kim Vladislav Student API
+
+Spring Boot CRUD application for managing students.
+Author: Kim Vladislav
+
+## Stack
+- Java 21, Spring Boot, Gradle
+- PostgreSQL
+- Docker, Docker Compose
+- Jenkins

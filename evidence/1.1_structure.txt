@@ -1,0 +1,40 @@
+$ find . -not -path "./.git*" -not -path "./.gradle*" -not -path "./src/*" | sort   # directory tree
+.
+./.dockerignore
+./.env
+./.env.example
+./Dockerfile
+./Jenkinsfile
+./README.md
+./backups
+./build.gradle
+./docker-compose.yml
+./evidence
+./evidence/1.1_structure.txt
+./gradle
+./gradle/wrapper
+./gradle/wrapper/gradle-wrapper.jar
+./gradle/wrapper/gradle-wrapper.properties
+./gradlew
+./gradlew.bat
+./jenkins
+./jenkins/Dockerfile
+./logs
+./logs/Kim_Vladislav_system_report.log
+./scripts
+./scripts/Kim_Vladislav_system_report.sh
+./settings.gradle
+./src
+
+$ for f in ... ; do [ -e "$f" ] && echo OK || echo MISSING; done
+OK      scripts
+OK      logs
+OK      backups
+OK      src
+OK      Dockerfile
+OK      docker-compose.yml
+OK      Jenkinsfile
+OK      build.gradle
+OK      README.md
+OK      scripts/Kim_Vladislav_system_report.sh
+OK      logs/Kim_Vladislav_system_report.log

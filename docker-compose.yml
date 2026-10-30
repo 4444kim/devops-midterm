@@ -1,0 +1,44 @@
+name: kim-vladislav-student-api
+
+services:
+  app:
+    build: .
+    image: kim-vladislav-student-api:v1.0-kim-vladislav
+    container_name: kim-vladislav-app
+    ports:
+      - "8081:8080"
+    environment:
+      # "db" is the Compose service name, resolved by Docker DNS inside the network
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - kim-vladislav-net
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: kim-vladislav-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - kim-vladislav-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - kim-vladislav-net
+
+volumes:
+  kim-vladislav-pgdata:
+
+networks:
+  kim-vladislav-net:
+    driver: bridge
