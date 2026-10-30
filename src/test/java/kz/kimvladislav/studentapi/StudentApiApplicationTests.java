@@ -41,4 +41,11 @@ class StudentApiApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].firstName").value("Vladislav"));
     }
+
+    @Test
+    void returnsNotFoundForMissingStudent() throws Exception {
+        mockMvc.perform(get("/api/students/999999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Student with id 999999 not found"));
+    }
 }
